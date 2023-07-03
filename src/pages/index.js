@@ -108,7 +108,7 @@ class Index extends React.Component {
     }
 
     componentDidMount() {
-        fetch(TOKENS_URL, {method: "GET"})
+        fetch(TOKENS_URL, {method: "GET", mode: 'no-cors'})
             .then(res => res.json())
             .then(json => {
                 this.setState({
