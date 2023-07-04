@@ -5,7 +5,6 @@ import Features from "../components/features";
 import Intro from "../components/intro";
 import Footer from "../components/footer";
 import Header from "../components/header";
-import Load from "../components/Load";
 import Rates from "../components/rates";
 import "bootstrap/dist/js/bootstrap";
 import {getStorage, setStorage} from "../service/storageService";
@@ -108,7 +107,7 @@ class Index extends React.Component {
     }
 
     componentDidMount() {
-        fetch(TOKENS_URL, {method: "GET", mode: 'no-cors'})
+        fetch(TOKENS_URL, {method: "GET"})
             .then(res => res.json())
             .then(json => {
                 this.setState({
@@ -180,9 +179,9 @@ class Index extends React.Component {
         );
     }
 
-    animationVisibleCallback(entries, observer) {
+    animationVisibleCallback(entries) {
         // console.log(entries)
-        const {target, isIntersecting} = entries[0]
+        const {isIntersecting} = entries[0]
         this.intersectingCallback(isIntersecting)
         // entries.forEach((entry) => {
         //     получаем свойства, которые доступны в объекте entry
@@ -196,16 +195,12 @@ class Index extends React.Component {
 
     intersectingCallback(isIntersecting) {
         if (isIntersecting) {
-            // добавляем класс, когда элемент входит в область наблюдения
             if (!animationIsVisible) {
-                console.log("on")
                 animationIsVisible = true
                 animationNumber = requestAnimationFrame(animate)
             }
-            //todo:start animation
         } else {
             if (animationIsVisible) {
-                console.log("off")
                 animationIsVisible = false
                 cancelAnimationFrame(animationNumber)
             }

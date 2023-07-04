@@ -14,11 +14,13 @@ export default function Intro(props) {
                     </p>
                     <div
                         className="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
-                        <button type="button"
+                        <a
+                            style={{textDecoration:'none'}}
+                            href={'/create'}
                                 className="intro-button btn btn-outline-secondary btn-lg px-4 w-100">
                             {props.language === 'en' ? 'Exchange' : '交流'}
 
-                        </button>
+                        </a>
                     </div>
                 </div>
                 <div className="col-lg-4 offset-lg-1 p-0">
