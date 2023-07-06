@@ -189,11 +189,10 @@ class Request extends React.Component {
                     <hr style={{color: "#ff8f1e", opacity: "0.75"}}/>
                     <div className={'text-center mt-3'}>
                         <h4 className={'my-4'}>
-                            {language === 'en' ? 'Invalid ID' : '无效ID'}
+                            {language === 'en' ? 'Invalid ID' : '交流会被取消了'}
                         </h4>
-                        {/*<FcApproval size={120}/>*/}
                         <h5 className={'mt-2 mb-3'}>
-                            {language === 'en' ? 'Tap the button below to create new one' : '点击下面的按钮来创建新的'}
+                            {language === 'en' ? 'Tap the button below to create new Exchange' : '点击下面的按钮来创建新的'}
                         </h5>
                         <button
                             className={"crypto-btn btn btn-outline-light w-100 bg-transparent my-1"}
