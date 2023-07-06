@@ -64,8 +64,9 @@ class Request extends React.Component {
                         }
                     }).then(res => {
                         return res.json()
-                    }).catch(() => this.setState({error: true}))
-                },5000)
+                    }).then(json => this.setState({request: json, loading: false}))
+                        .catch(() => this.setState({error: true}))
+                }, 5000)
             }).catch(() => this.setState({error: true}))
     }
 
