@@ -54,8 +54,8 @@ class Request extends React.Component {
                 return res.json()
             }).catch(() => this.setState({error: true}))
             // .then(json=>console.log(json))
-            .then(json => this.setState({request: json, loading: false}), () => {
-                this.setState({loading: false})
+            .then(json => this.setState({request: json, loading: false}, () => {
+                this.setState({loading: false});
                 setInterval(() => {
                     fetch(input, {
                         method: "GET", headers: {
@@ -65,9 +65,9 @@ class Request extends React.Component {
                     }).then(res => {
                         return res.json()
                     }).then(json => this.setState({request: json, loading: false}))
-                        .catch(() => this.setState({error: true}))
-                }, 5000)
-            }).catch(() => this.setState({error: true}))
+                    // console.log('5 sec')
+                }, 10000)
+            })).catch(() => this.setState({error: true}))
     }
 
     render() {
