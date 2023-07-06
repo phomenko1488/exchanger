@@ -82,9 +82,10 @@ class Request extends React.Component {
                 <hr className={'mt-0'}/>
             </Container>
             <div className={""}>
-                {(this.state.request !== undefined && this.state.request !== null) ?
-                    this.getDivByState() : <></>
-                }
+                {this.getDivByState()}
+                {/*{(this.state.request !== undefined && this.state.request !== null) ?*/}
+                {/*    this.getDivByState() : <></>*/}
+                {/*}*/}
             </div>
             <Container>
                 <Footer isIndexPage={false}/>
