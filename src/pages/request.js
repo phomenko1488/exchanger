@@ -70,10 +70,11 @@ class Request extends React.Component {
     }
 
     render() {
+        let language = getStorage('language')
         if (this.state.loading)
             return <Load theme={'white'}/>
-        if (this.state.error)
-            return <this.Error/>
+        // if (this.state.error)
+        //     return <this.Error/>
         if (this.state.redirectedToCreate)
             return <Navigate to={"/create"}/>
         return <div>
@@ -82,10 +83,10 @@ class Request extends React.Component {
                 <hr className={'mt-0'}/>
             </Container>
             <div className={""}>
-                {this.getDivByState()}
-                {/*{(this.state.request !== undefined && this.state.request !== null) ?*/}
-                {/*    this.getDivByState() : <></>*/}
-                {/*}*/}
+                {/*{this.getDivByState()}*/}
+                {(this.state.request !== undefined && this.state.request !== null) ?
+                    this.getDivByState(language) : this.Error(language)
+                }
             </div>
             <Container>
                 <Footer isIndexPage={false}/>
@@ -95,8 +96,7 @@ class Request extends React.Component {
     }
 
 
-    getDivByState() {
-        let language = getStorage('language')
+    getDivByState(language) {
         switch (this.state.request.requestStatus) {
             case "CREATED":
                 return this.PROCEED(language);
