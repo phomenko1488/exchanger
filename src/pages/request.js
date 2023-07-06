@@ -215,8 +215,8 @@ class Request extends React.Component {
                         {
                             (this.state.request.from.abbreviation === "ETH" || this.state.request.from.abbreviation === "BTC") ?
                                 <div className="toCenterQR d-flex justify-content-center mb-2">
-                                    <div className="qrContainer p-2 rounded-1"
-                                         style={{width: "fit-content", height: 'fit-content', backgroundColor: "rgb(148, 148, 148)"}}>
+                                    <div className="qrContainer p-2 rounded-2"
+                                         style={{width: "fit-content", height: 'fit-content', border: "1px solid rgb(255, 143, 30)"}}>
                                         <QRCode
                                             value={this.generateQRCodeValue()}
                                             className={'qr'}
