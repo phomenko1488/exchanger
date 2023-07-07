@@ -9,9 +9,11 @@ import '../App.css'
 import Header from "../components/header";
 import Footer from "../components/footer";
 import {getStorage} from "../service/storageService";
-import {FcApproval} from "react-icons/fc";
+import {FcApproval, FcCancel, FcDisapprove} from "react-icons/fc";
+import {BsClockHistory, BsFillCcCircleFill, BsFillPatchCheckFill, BsFillXCircleFill} from "react-icons/bs";
 
 let language = getStorage('language')
+let fetcherInterval = 0
 
 class Request extends React.Component {
     constructor(props) {
@@ -56,17 +58,22 @@ class Request extends React.Component {
             // .then(json=>console.log(json))
             .then(json => this.setState({request: json, loading: false}, () => {
                 this.setState({loading: false});
-                setInterval(() => {
-                    fetch(input, {
-                        method: "GET", headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        }
-                    }).then(res => {
-                        return res.json()
-                    }).then(json => this.setState({request: json, loading: false}))
-                    // console.log('5 sec')
-                }, 10000)
+                if (this.state.request !== null && this.state.request !== undefined && this.state.request.requestStatus === 'CREATED')
+                    fetcherInterval = setInterval(() => {
+                        fetch(input, {
+                            method: "GET", headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            }
+                        }).then(res => {
+                            return res.json()
+                        }).then(json => {
+                            this.setState({request: json, loading: false})
+                            if (json.requestStatus !== 'CREATED')
+                                clearInterval(fetcherInterval)
+                        })
+                        // console.log('5 sec')
+                    }, 10000)
             })).catch(() => this.setState({error: true}))
     }
 
@@ -105,6 +112,8 @@ class Request extends React.Component {
                 return this.EXPIRED(language);
             case "CANCELED":
                 return this.CANCELED(language);
+            case "SUCCESS":
+                return this.SUCCESS(language);
             default:
                 return this.Error(language)
         }
@@ -119,12 +128,12 @@ class Request extends React.Component {
                     <h4>{this.state.request.id}</h4>
                     <hr style={{color: "#ff8f1e", opacity: "0.75"}}/>
                     <div className={'text-center mt-3'}>
-                        <h4 className={'my-4'}>
+                        <h3 className={'my-4'}>
                             {language === 'en' ? 'Exchange was expired' : '交易所已过期'}
-                        </h4>
+                        </h3>
+                        <BsClockHistory className={'mt-1 mb-3'} rotate={180} fill={'#bd1616'} size={190}/>
                         <h5 className={'mt-2 mb-3'}>
                             {language === 'en' ? 'Tap the button below to create new one' : '点击下面的按钮来创建新的'}
-
                         </h5>
                         <button
                             className={"crypto-btn btn btn-outline-light w-100 bg-transparent my-1"}
@@ -152,14 +161,51 @@ class Request extends React.Component {
                 <div
                     className={" p-4 rounded-5 text-center"}
                     style={{width: "fit-content", border: '1px solid #ff8f1e'}}>
+                    <h3>
+                        {language === 'en' ? 'Exchange was canceled' : '交流会被取消了'}
+                    </h3>
+                    <hr style={{color: "#ff8f1e", opacity: "0.75"}}/>
+                    <div className={'text-center mt-3'}>
+                        <BsFillXCircleFill className={'mt-1 mb-3'} rotate={180} fill={'#bd1616'} size={190}/>
+                        <h5 className={'mt-2 mb-3'}>
+                            {language === 'en' ? 'Tap the button below to create new one' : '点击下面的按钮来创建新的'}
+                        </h5>
+                        <button
+                            className={"crypto-btn btn btn-outline-light w-100 bg-transparent my-1"}
+                            onClick={() => this.redirectToCreate()}>
+                            {language === 'en' ? 'Create' : '创建'}
+                        </button>
+                    </div>
+                    <hr className={'mb-3'} style={{color: "#ff8f1e", opacity: "0.75"}}/>
+                    <div className={'text-center'}>
+                        <a
+                            style={{color: "#ff8f1e"}}
+                            className={'nav-link link-underline-opacity-0'}
+                            href="https://t.me/schoolboiq">
+                            {language === 'en' ? '24/7 Support' : '24/7支持'}
+                        </a>
+                    </div>
+                </div>
+            </Container>
+        </div>
+    }
+
+    SUCCESS(language) {
+        return <div className={" p-2 d-flex justify-content-center align-items-center w-100 h-100"}>
+            <Container className={" d-flex justify-content-center align-items-center w-100 h-100"}>
+                <div
+                    className={" p-4 rounded-5 text-center"}
+                    style={{width: "fit-content", border: '1px solid #ff8f1e'}}>
                     <h4>{this.state.request.id}</h4>
                     <hr style={{color: "#ff8f1e", opacity: "0.75"}}/>
                     <div className={'text-center mt-3'}>
-                        <h4 className={'my-4'}>
-                            {language === 'en' ? 'Exchange was canceled' : '交流会被取消了'}
-                        </h4>
+                        <h3 className={'my-4'}>
+                            {language === 'en' ? 'Success exchanged' : '交流会被取消了'}
+                        </h3>
+                        <BsFillPatchCheckFill className={'mt-1 mb-3'} fill={'#117e12'}
+                                              size={190}></BsFillPatchCheckFill>
                         <h5 className={'mt-2 mb-3'}>
-                            {language === 'en' ? 'Tap the button below to create new one' : '点击下面的按钮来创建新的'}
+                            {language === 'en' ? 'Tap the button below to create new exchange' : '点击下面的按钮来创建新的'}
                         </h5>
                         <button
                             className={"crypto-btn btn btn-outline-light w-100 bg-transparent my-1"}
@@ -187,14 +233,14 @@ class Request extends React.Component {
                 <div
                     className={" p-4 rounded-5 text-center"}
                     style={{width: "fit-content", border: '1px solid #ff8f1e'}}>
-                    <h4>{this.props.id}</h4>
+                    <h3>
+                        {language === 'en' ? 'Invalid ID' : '交流会被取消了'}
+                    </h3>
                     <hr style={{color: "#ff8f1e", opacity: "0.75"}}/>
                     <div className={'text-center mt-3'}>
-                        <h4 className={'my-4'}>
-                            {language === 'en' ? 'Invalid ID' : '交流会被取消了'}
-                        </h4>
+                        <BsFillXCircleFill className={'mt-1 mb-3'} rotate={180} fill={'#bd1616'} size={190}/>
                         <h5 className={'mt-2 mb-3'}>
-                            {language === 'en' ? 'Tap the button below to create new Exchange' : '点击下面的按钮来创建新的'}
+                            {language === 'en' ? 'Tap the button below to create new exchange' : '点击下面的按钮来创建新的'}
                         </h5>
                         <button
                             className={"crypto-btn btn btn-outline-light w-100 bg-transparent my-1"}

@@ -10,6 +10,7 @@ export default function Footer(props) {
                    className="d-flex align-items-center  link-body-emphasis text-decoration-none">
                     <h3 className={'h3 mb-2'}>PandaSwap</h3>
                 </a>
+                <hr style={{color: "#ff8f1e", opacity: "0.75", marginTop: "0"}}/>
                 <p className="text-body-secondary mb-1">+8(522) 450-14-62</p>
                 <p className="text-body-secondary mb-1">
                     {language === 'en' ? '7 Floor, Tuen Mun Town Plaza, 1 Tuen Shun St, Tuen Mun, Hong-Kong, China' : '中国香港屯门屯顺街1号屯门市广场7楼'}
@@ -69,7 +70,7 @@ export default function Footer(props) {
                     <li className="nav-item mb-2"><a href="/terms"
                                                      className="nav-link p-0 text-body-secondary">
                         {language === 'en' ? 'Terms and conditions' : '条款和条件'}
-                        </a>
+                    </a>
                     </li>
                     <li className="nav-item mb-2"><a href="/privacy"
                                                      className="nav-link p-0 text-body-secondary">{language === 'en' ? 'Privacy Policy' : '隐私政策'}</a>

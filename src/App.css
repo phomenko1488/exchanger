@@ -362,3 +362,7 @@ canvas {
     transform: translate3d(0px, -5px, 0px);
     color: #316ce8;
 }
+
+.form-control:hover{
+    border-color: #ff8f1e;
+}
